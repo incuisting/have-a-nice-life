@@ -38,7 +38,15 @@ async function submitQueue() {
   } = await fetch(thirdLogin)
   console.log(id, token)
 }
-submitQueue()
-// fetch(reqOption).then(data => {
-//   console.log(data.body)
-// })
+
+function main() {
+  let count = 0
+  let timeOut = setInterval(function() {
+    count++
+    console.log(count)
+    if (count > 4) {
+      clearInterval(timeOut)
+    }
+  }, 1000)
+}
+main()
