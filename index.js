@@ -1,5 +1,6 @@
 const { fetch } = require('./utils')
 const { data } = require('./userInfo')
+const { headerBuilder } = require('./requestInfo')
 const getUnionId = {
   method: 'POST',
   url: 'https://superapp.kiwa-tech.com/app/getUnionId',
@@ -28,17 +29,19 @@ async function submitQueue() {
     body: {
       data: { unionid }
     }
-  } = await fetch(getUnionId)
+  } = await fetch(
+    headerBuilder('app/getUnionId', { openid: 'oKNukjhsMYqMEW6KMJZdmiciI1O8' })
+  )
   let thirdLoginBody = { uid: unionid, type: 1, country: 'CN' }
-  thirdLogin.body = thirdLoginBody
   let {
     body: {
       data: { id, token }
     }
-  } = await fetch(thirdLogin)
+  } = await fetch(headerBuilder('login/thirdLogin', thirdLoginBody))
   console.log(id, token)
 }
 
+submitQueue()
 function main() {
   let count = 0
   let timeOut = setInterval(function() {
@@ -49,4 +52,4 @@ function main() {
     }
   }, 1000)
 }
-main()
+// main()
