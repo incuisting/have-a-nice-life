@@ -1,55 +1,57 @@
 const { fetch } = require('./utils')
 const { data } = require('./userInfo')
 const { headerBuilder } = require('./requestInfo')
-const getUnionId = {
-  method: 'POST',
-  url: 'https://superapp.kiwa-tech.com/app/getUnionId',
-  headers: {
-    'User-Agent':
-      'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) > AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257 > MicroMessenger/6.0.1 NetType/WIFI',
-    Accept: 'application/json; charset=utf-8',
-    'Content-Type': 'application/json; charset=UTF-8'
-  },
-  body: { openid: 'oKNukjhsMYqMEW6KMJZdmiciI1O8' },
-  json: true
-}
-const thirdLogin = {
-  method: 'POST',
-  url: 'https://superapp.kiwa-tech.com/login/thirdLogin',
-  headers: {
-    'User-Agent':
-      'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) > AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257 > MicroMessenger/6.0.1 NetType/WIFI',
-    Accept: 'application/json; charset=utf-8',
-    'Content-Type': 'application/json; charset=UTF-8'
-  },
-  json: true
-}
-async function submitQueue() {
+async function getAuth(openid) {
   let {
     body: {
       data: { unionid }
     }
-  } = await fetch(
-    headerBuilder('app/getUnionId', { openid: 'oKNukjhsMYqMEW6KMJZdmiciI1O8' })
-  )
+  } = await fetch(headerBuilder('app/getUnionId', { openid }))
   let thirdLoginBody = { uid: unionid, type: 1, country: 'CN' }
+  let { body } = await fetch(headerBuilder('login/thirdLogin', thirdLoginBody))
+  return body
+}
+async function submitQueue(openid, peopleNum) {
   let {
     body: {
-      data: { id, token }
+      data: { id: customerId, token }
     }
-  } = await fetch(headerBuilder('login/thirdLogin', thirdLoginBody))
-  console.log(id, token)
+  } = await getAuth(openid)
+  let queueBody = {
+    _HAIDILAO_APP_TOKEN: token,
+    customerId: customerId,
+    storeId: '091401',
+    storeName: '5050购物中心店',
+    title: '2',
+    peopleNum: peopleNum
+  }
+  let { body } = await fetch(headerBuilder('app/submitQueue', queueBody))
+  return body
 }
 
-submitQueue()
-function main() {
-  let count = 0
-  let timeOut = setInterval(function() {
-    count++
-    console.log(count)
-    if (count > 4) {
-      clearInterval(timeOut)
+async function main() {
+  let {
+    data: { id: customerId, token }
+  } = await getAuth('oKNukjhsMYqMEW6KMJZdmiciI1O8')
+  let getStoreApiBody = {
+    _HAIDILAO_APP_TOKEN: token,
+    customerId: customerId,
+    storeId: '091401'
+  }
+  let {
+    body: {
+      data: { webQueue }
     }
-  }, 1000)
+  } = await fetch(headerBuilder('app/getStoreById', getStoreApiBody))
+  console.log(webQueue)
+  // let webQueue = 0
+  // let count = 0
+  // let timeOut = setInterval(async function() {
+  //   await fetch(headerBuilder('app/getStoreById', getStoreApiBody))
+  //   if (count > 10) {
+  //     clearInterval(timeOut)
+  //   }
+  //   count++
+  // }, 1000)
 }
-// main()
+main()
