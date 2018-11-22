@@ -5,7 +5,9 @@ const { headerBuilder } = require('./requestInfo')
 async function main() {
   let allQueue = initSubmitQueue(data)
   let {
-    data: { id: customerId, token }
+    body: {
+      data: { id: customerId, token }
+    }
   } = await getAuth('oKNukjhsMYqMEW6KMJZdmiciI1O8')
   let getStoreApiBody = {
     _HAIDILAO_APP_TOKEN: token,
@@ -15,14 +17,16 @@ async function main() {
   let count = 0
   let timeOut = setInterval(async function() {
     let {
-      data: { webQueue }
+      body: {
+        data: { webQueue }
+      }
     } = await fetch(headerBuilder('app/getStoreById', getStoreApiBody))
     if (webQueue) {
       let result = await Promise.all(allQueue)
       console.log(result)
       clearInterval(timeOut)
     }
-    if (count > 60) {
+    if (count > 5) {
       clearInterval(timeOut)
     }
     count++

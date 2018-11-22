@@ -1,18 +1,23 @@
 const request = require('request')
-const { headerBuilder } = require('./requestInfo')
+const { headerBuilder, cookieHandle } = require('./requestInfo')
+const { getCookie } = require('./getCookie')
 
 async function getAuth(openid) {
   let {
-    data: { unionid }
+    body: {
+      data: { unionid }
+    }
   } = await fetch(headerBuilder('app/getUnionId', { openid }))
   let thirdLoginBody = { uid: unionid, type: 1, country: 'CN' }
-  let body = await fetch(headerBuilder('login/thirdLogin', thirdLoginBody))
-  return body
+  let res = await fetch(headerBuilder('login/thirdLogin', thirdLoginBody))
+  return res
 }
 
-async function submitQueue(openid, peopleNum) {
+async function submitQueue(openid, peopleNum, browserCookie) {
   let {
-    data: { id: customerId, token }
+    body: {
+      data: { id: customerId, token }
+    }
   } = await getAuth(openid)
   let queueBody = {
     _HAIDILAO_APP_TOKEN: token,
@@ -22,20 +27,24 @@ async function submitQueue(openid, peopleNum) {
     title: '2',
     peopleNum: peopleNum
   }
-  let res = await fetch(headerBuilder('app/submitQueue', queueBody))
+  let cookie = `${token};  ${browserCookie}`
+  console.log('cookie', cookie)
+  let res = await fetch(headerBuilder('app/submitQueue', queueBody, cookie))
   return res
 }
 
 function fetch(option) {
   return new Promise((resolve, reject) => {
     request(option, (error, res, body) => {
-      resolve(res.body)
+      resolve({ body, headers: res.headers })
     })
   })
 }
 
 function initSubmitQueue(data) {
-  return data.map(({ openid, peopleNum }) => submitQueue(openid, peopleNum))
+  return data.map(({ openid, peopleNum, cookie }) =>
+    submitQueue(openid, peopleNum, cookie)
+  )
 }
 module.exports = {
   fetch,

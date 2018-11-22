@@ -2,7 +2,9 @@ module.exports = {
   data: [
     {
       openid: 'oKNukjhsMYqMEW6KMJZdmiciI1O8',
-      peopleNum: 6
+      peopleNum: 4,
+      cookie:
+        'acw_tc=7b39758215424391818734846e7148c67879bdb20912e3db69ee882e237484'
     }
     // {
     //   openid: 'oKNukjg9fCn-IgdydB48_TB3TowE',
