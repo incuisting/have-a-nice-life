@@ -4,15 +4,17 @@ function headerBuilder(api, body, cookie = null) {
     url: `https://superapp.kiwa-tech.com/${api}`,
     headers: {
       'User-Agent':
-        'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) > AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257 > MicroMessenger/6.0.1 NetType/WIFI',
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B92 MicroMessenger/6.7.3(0x16070321) NetType/WIFI Language/zh_CN',
+      Connection: 'keep-alive',
+      'Accept-Language': 'zh-cn',
       Accept: 'application/json; charset=utf-8',
-      'Content-Type': 'application/json; charset=UTF-8'
+      'Content-Type': 'application/json'
     },
     body: body,
     json: true
   }
   if (cookie) {
-    res.Cookie = cookie
+    res.headers['Cookie'] = cookie
     return res
   }
   return res

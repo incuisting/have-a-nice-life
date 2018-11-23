@@ -12,7 +12,7 @@ async function main() {
   let getStoreApiBody = {
     _HAIDILAO_APP_TOKEN: token,
     customerId: customerId,
-    storeId: '041501' //5050店
+    storeId: '091401' //5050店
   }
   let count = 0
   let timeOut = setInterval(async function() {
@@ -23,12 +23,13 @@ async function main() {
     } = await fetch(headerBuilder('app/getStoreById', getStoreApiBody))
     if (webQueue) {
       let result = await Promise.all(allQueue)
-      console.log(result)
+      console.log(result.data)
       clearInterval(timeOut)
     }
-    if (count > 5) {
+    if (count > 50) {
       clearInterval(timeOut)
     }
+    console.log('webq:', webQueue, 'count:', count)
     count++
   }, 666)
 }

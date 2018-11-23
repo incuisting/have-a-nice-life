@@ -22,13 +22,12 @@ async function submitQueue(openid, peopleNum, browserCookie) {
   let queueBody = {
     _HAIDILAO_APP_TOKEN: token,
     customerId: customerId,
-    storeId: '041501',
-    storeName: '银泰城店',
-    title: '2',
+    storeId: '091401',
+    storeName: '5050购物中心店',
+    title: '1',
     peopleNum: peopleNum
   }
-  let cookie = `${token};  ${browserCookie}`
-  console.log('cookie', cookie)
+  let cookie = `_HAIDILAO_APP_TOKEN=${token};  ${browserCookie}`
   let res = await fetch(headerBuilder('app/submitQueue', queueBody, cookie))
   return res
 }
@@ -36,7 +35,7 @@ async function submitQueue(openid, peopleNum, browserCookie) {
 function fetch(option) {
   return new Promise((resolve, reject) => {
     request(option, (error, res, body) => {
-      resolve({ body, headers: res.headers })
+      resolve({ body })
     })
   })
 }
