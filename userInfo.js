@@ -2,7 +2,7 @@ module.exports = {
   data: [
     {
       openid: 'oKNukjhsMYqMEW6KMJZdmiciI1O8',
-      peopleNum: 4,
+      peopleNum: 6,
       cookie:
         'acw_tc=65c86a0b15414856359658636e7f5baf4bb4d659c6e4f648f765655fd84268'
     }

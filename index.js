@@ -23,7 +23,7 @@ async function main() {
     } = await fetch(headerBuilder('app/getStoreById', getStoreApiBody))
     if (webQueue) {
       let result = await Promise.all(allQueue)
-      console.log(result.data)
+      console.log(result)
       clearInterval(timeOut)
     }
     if (count > 50) {
