@@ -1,6 +1,7 @@
 const request = require('request')
 const { headerBuilder, cookieHandle } = require('./requestInfo')
 const { getCookie } = require('./getCookie')
+const { storeId, storeName } = require('./userInfo')
 
 async function getAuth(openid) {
   let {
@@ -13,7 +14,7 @@ async function getAuth(openid) {
   return res
 }
 
-async function submitQueue(openid, peopleNum, browserCookie) {
+async function submitQueue(openid, peopleNum, browserCookie, title) {
   let {
     body: {
       data: { id: customerId, token }
@@ -22,9 +23,9 @@ async function submitQueue(openid, peopleNum, browserCookie) {
   let queueBody = {
     _HAIDILAO_APP_TOKEN: token,
     customerId: customerId,
-    storeId: '091401',
-    storeName: '5050购物中心店',
-    title: '1',
+    storeId: storeId,
+    storeName: storeName,
+    title: title,
     peopleNum: peopleNum
   }
   let cookie = `_HAIDILAO_APP_TOKEN=${token};  ${browserCookie}`
@@ -40,9 +41,9 @@ function fetch(option) {
   })
 }
 
-function initSubmitQueue(data) {
+function initSubmitQueue(data, title) {
   return data.map(({ openid, peopleNum, cookie }) =>
-    submitQueue(openid, peopleNum, cookie)
+    submitQueue(openid, peopleNum, cookie, title)
   )
 }
 module.exports = {

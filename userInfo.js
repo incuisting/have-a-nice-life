@@ -1,4 +1,10 @@
 module.exports = {
+  // storeId: '091401',
+  // storeName: '5050购物中心店',
+  // 041501 银泰城
+  // 091401 '5050购物中心店'
+  storeId: '041501',
+  storeName: '银泰城',
   data: [
     {
       openid: 'oKNukjhsMYqMEW6KMJZdmiciI1O8',

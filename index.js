@@ -1,9 +1,10 @@
 const { fetch, initSubmitQueue, getAuth } = require('./utils')
-const { data } = require('./userInfo')
+const { data, storeId } = require('./userInfo')
 const { headerBuilder } = require('./requestInfo')
 
 async function main() {
-  let allQueue = initSubmitQueue(data)
+  let allQueue1 = initSubmitQueue(data, '1')
+  let allQueue2 = initSubmitQueue(data, '2')
   let {
     body: {
       data: { id: customerId, token }
@@ -12,7 +13,7 @@ async function main() {
   let getStoreApiBody = {
     _HAIDILAO_APP_TOKEN: token,
     customerId: customerId,
-    storeId: '091401' //5050店
+    storeId: storeId //5050店
   }
   let count = 0
   let timeOut = setInterval(async function() {
@@ -22,15 +23,14 @@ async function main() {
       }
     } = await fetch(headerBuilder('app/getStoreById', getStoreApiBody))
     if (webQueue) {
-      let result = await Promise.all(allQueue)
-      console.log(result)
       clearInterval(timeOut)
-    }
-    if (count > 50) {
-      clearInterval(timeOut)
+      let result1 = await Promise.all(allQueue1)
+      let result2 = await Promise.all(allQueue2)
+      console.log(result1)
+      console.log(result2)
     }
     console.log('webq:', webQueue, 'count:', count)
     count++
-  }, 666)
+  })
 }
 main()
