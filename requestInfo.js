@@ -25,7 +25,6 @@ function headerBuilder(api, body, cookie = null) {
      '_HAIDILAO_APP_TOKEN=TOKEN_APP_9e2b871e-28a2-430f-969e-d1fed31b1efb; Path=/' ],
  *  */
 function cookieHandle(token, browserCookie) {
-  console.log('browserCookie', browserCookie)
   return `_HAIDILAO_APP_TOKEN=${token};  ${browserCookie.join().split(';')[0]}`
 }
 
