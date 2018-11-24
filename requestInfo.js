@@ -26,11 +26,7 @@ function headerBuilder(api, body, cookie = null) {
  *  */
 function cookieHandle(token, browserCookie) {
   console.log('browserCookie', browserCookie)
-  let cookeiArray = [
-    token,
-    `${browserCookie[0].name}=${browserCookie[0].value}`
-  ]
-  return cookeiArray.join('; ')
+  return `_HAIDILAO_APP_TOKEN=${token};  ${browserCookie.join().split(';')[0]}`
 }
 
 module.exports = {

@@ -1,13 +1,10 @@
-const puppeteer = require('puppeteer')
+const axios = require('axios')
 
 async function getCookie(url) {
-  const browser = await puppeteer.launch()
-  const page = await browser.newPage()
-  await page.goto(url)
-  const cookie = await page.cookies()
-  return cookie
+  let option = { url: url }
+  let { headers } = await axios.request(option)
+  return headers['set-cookie']
 }
-
 module.exports = {
   getCookie
 }

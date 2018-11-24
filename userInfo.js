@@ -8,9 +8,9 @@ module.exports = {
   data: [
     {
       openid: 'oKNukjhsMYqMEW6KMJZdmiciI1O8',
-      peopleNum: 6,
-      cookie:
-        'acw_tc=65c86a0b15414856359658636e7f5baf4bb4d659c6e4f648f765655fd84268'
+      peopleNum: 4,
+      url:
+        'https://superapp.kiwa-tech.com/weexWeb/index.html?page=stores-numeral.web.js&moduleId=row-num&storeName=rowNum&source=weixin&weixin_user_id=oKNukjhsMYqMEW6KMJZdmiciI1O8&realname=nNQweixin%E5%BE%90%E7%84%B1%E6%8C%BA&mobile=&cuspoint=&gender=m'
     }
     // {
     //   openid: 'oKNukjg9fCn-IgdydB48_TB3TowE',
