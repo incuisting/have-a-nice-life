@@ -30,6 +30,7 @@ async function main() {
   let reFetch2 = filterSuccess(result2, allQueue2)
   let queueStatus = isContinue(reFetch1, reFetch2)
   logger.info(result1, result2)
+  // console.log(result1, result2)
   while (queueStatus) {
     result1 = await Promise.all(reFetch1)
     result2 = await Promise.all(reFetch2)
@@ -37,6 +38,10 @@ async function main() {
     reFetch2 = filterSuccess(result2, allQueue2)
     queueStatus = isContinue(reFetch1, reFetch2)
     logger.info(result1, result2)
+    // console.log(result1, result2)
   }
 }
-main()
+
+module.exports = {
+  main
+}

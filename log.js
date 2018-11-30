@@ -1,9 +1,10 @@
 const log4js = require('log4js')
+const path = require('path')
 log4js.configure({
   appenders: {
     file: {
       type: 'file',
-      filename: 'info.log',
+      filename: path.resolve(__dirname, 'info.log'),
       layout: {
         type: 'pattern',
         pattern: '%r %p - %m'

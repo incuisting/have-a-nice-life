@@ -1,7 +1,6 @@
 const { CronJob } = require('cron')
-const job = new CronJob('* 10 * * * *', function() {
-  const d = new Date()
-  console.log('At Ten Minutes:', d)
+const { main } = require('./index')
+const job = new CronJob('0 0 8,16 * * *', function() {
+  main()
 })
-console.log('After job instantiation')
 job.start()
