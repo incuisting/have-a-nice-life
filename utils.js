@@ -14,22 +14,7 @@ async function getAuth(openid) {
   return res
 }
 
-async function submitQueue(openid, peopleNum, url, title) {
-  let {
-    body: {
-      data: { id: customerId, token }
-    }
-  } = await getAuth(openid)
-  let queueBody = {
-    _HAIDILAO_APP_TOKEN: token,
-    customerId: customerId,
-    storeId: storeId,
-    storeName: storeName,
-    title: title,
-    peopleNum: peopleNum
-  }
-  let browserCookie = await getCookie(url)
-  let cookie = cookieHandle(token, browserCookie)
+async function submitQueue(queueBody, cookie) {
   let res = await fetch(headerBuilder('app/submitQueue', queueBody, cookie))
   return res
 }
@@ -42,10 +27,8 @@ function fetch(option) {
   })
 }
 
-function initSubmitQueue(data, title) {
-  return data.map(({ openid, peopleNum, url, cookie }) =>
-    submitQueue(openid, peopleNum, url, title)
-  )
+function initSubmitQueue(data) {
+  return data.map(({ queueBody, cookie }) => submitQueue(queueBody, cookie))
 }
 module.exports = {
   fetch,
