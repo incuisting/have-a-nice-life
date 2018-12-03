@@ -47,4 +47,6 @@ async function writeTofile() {
     }
   )
 }
-writeTofile()
+module.exports = {
+  getAuthData: writeTofile
+}
